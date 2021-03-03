@@ -48,20 +48,26 @@ object action {
     }
   }
 
+  def deleteEmp(empId: Long)(implicit session: DBSession): Long = {
+    sql"""DELETE FROM emp WHERE user_Id = ${empId}"""
+      .updateAndReturnGeneratedKey()
+      .apply()
+  }
+
   def incrementSalary(amt: Long, empId: Long)(implicit
       session: DBSession
-  ): Try[Seq[empDetail]] = {
+  ): Try[Long] = {
     Try {
       sql"""UPDATE emp set salary=${amt} WHERE user_id=${empId}"""
-        .map { result =>
-          empDetail(
-            name = result.string("name"),
-            email = result.string(columnLabel = "email"),
-            salary = result.int("salary"),
-            address = result.string("address")
-          )
-        }
-        .list()
+      //        .map { result =>
+      //          empDetail(
+      //            name = result.string("name"),
+      //            email = result.string(columnLabel = "email"),
+      //            salary = result.int("salary"),
+      //            address = result.string("address")
+      //          )
+      //        }
+        .updateAndReturnGeneratedKey()
         .apply()
     }
 
@@ -74,7 +80,7 @@ object action {
     println("Press ' 1 ' for add Employ")
     println("Press ' 2 ' for to view all Employees detail")
     println("Press ' 3 ' for Increment Employ Salary")
-    println("Press ' 4 ' for Edit Employ")
+    println("Press ' 4 ' for Delete Employ")
     println("Press ' 5 ' for Exit ")
     opt = scala.io.StdIn.readInt()
     opt
