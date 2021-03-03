@@ -39,7 +39,7 @@ object Employees {
         println("Enter the Icreament Salary")
         amt = readInt()
 
-        val empList = action.icrementSalary(amt, empId)
+        val empList = action.incrementSalary(amt, empId)
         empList match {
           case Failure(exception) =>
             println(s"Failed due to : ${exception.getMessage}")

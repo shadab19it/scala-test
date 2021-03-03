@@ -48,7 +48,7 @@ object action {
     }
   }
 
-  def icrementSalary(amt: Long, empId: Long)(implicit
+  def incrementSalary(amt: Long, empId: Long)(implicit
       session: DBSession
   ): Try[Seq[empDetail]] = {
     Try {
