@@ -48,6 +48,23 @@ object action {
     }
   }
 
+  def getSngleEmp(empId: Long)(implicit
+      session: DBSession
+  ): Option[empDetail] = {
+    sql"""SELECT user_Id, name,email,address,salary, address FROM emp WHERE user_id = ${empId}"""
+      .map { result =>
+        empDetail(
+          name = result.string("name"),
+          email = result.string(columnLabel = "email"),
+          salary = result.int("salary"),
+          address = result.string("address")
+        )
+      }
+      .single()
+      .apply()
+
+  }
+
   def deleteEmp(empId: Long)(implicit session: DBSession): Long = {
     sql"""DELETE FROM emp WHERE user_Id = ${empId}"""
       .updateAndReturnGeneratedKey()
@@ -82,6 +99,7 @@ object action {
     println("Press ' 3 ' for Increment Employ Salary")
     println("Press ' 4 ' for Delete Employ")
     println("Press ' 5 ' for Exit ")
+    println("Press ' 7 ' for get Single Emp ")
     opt = scala.io.StdIn.readInt()
     opt
   }

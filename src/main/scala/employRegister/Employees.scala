@@ -13,7 +13,7 @@ object Employees {
 
     var opt: Int = action.selectOpt
 
-    while (opt <= 6 & opt > 0) {
+    while (opt <= 7 & opt > 0) {
       if (opt == 1) {
         val newEmp = action.createEmp()
         val empId = action.addUserAccout(newEmp)
@@ -25,8 +25,7 @@ object Employees {
         opt = action.repeatOpt
       } else if (opt == 3) {
         var amt, empId: Long = 0
-        println("Please Enter emp Id")
-        empId = readInt()
+        empId = getEmpId
         println("Enter the Icreament Salary")
         amt = readInt()
 
@@ -41,9 +40,7 @@ object Employees {
         opt = action.repeatOpt
 
       } else if (opt == 4) {
-        var empId: Long = -1
-        println("Please Enter emp Id")
-        empId = readInt()
+        var empId = getEmpId
         val deletEmpId = action.deleteEmp(empId)
         println(s"EmpId ${deletEmpId} deleted successfull")
         opt = action.repeatOpt
@@ -51,6 +48,16 @@ object Employees {
         System.exit(0)
       } else if (opt == 6) {
         opt = action.selectOpt
+      } else if (opt == 7) {
+        var empId = getEmpId
+        var singleEmp = action.getSngleEmp(empId)
+        singleEmp match {
+          case Some(empDetail(name, email, address, salary)) =>
+            println(s"Employee name : ${name} living in $address")
+          case None => println("No employee found")
+        }
+        opt = action.selectOpt
+
       } else {
         opt = action.selectOpt
       }
@@ -81,5 +88,12 @@ object Employees {
 //        )
 //    }
 //  }
+
+  def getEmpId: Long = {
+    var empId: Long = -1
+    println("Please Enter emp Id")
+    empId = readInt()
+    return empId
+  }
 
 }
